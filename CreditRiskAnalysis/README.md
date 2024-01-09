@@ -36,3 +36,18 @@ Key Goals:
 Purpose:
 
 This project aims to demonstrate a profound understanding of SQL database management and data analysis, paired with R's analytical and visualization capabilities. It's particularly focused on deriving actionable insights from complex datasets in the realm of credit risk assessment, making it a valuable addition to any professional portfolio in the field of data analysis and credit risk management.
+
+Dataset
+
+Overview
+This project uses a comprehensive credit risk analysis dataset, primarily focusing on loan and credit information. The dataset was sourced from [Kaggle: Credit Risk Analysis Dataset](https://www.kaggle.com/datasets/rameshmehta/credit-risk-analysis?resource=download).
+
+Data Sample
+In this repository, you will find a representative sample of the dataset. This sample has been carefully selected to demonstrate the core functionalities of our SQL and R-based analysis while adhering to GitHub's file size constraints.
+
+Accessing the Full Dataset
+For a more in-depth analysis or replication of the study, the full dataset can be downloaded directly from Kaggle. You can access it using the following link: [Full Credit Risk Analysis Dataset](https://www.kaggle.com/datasets/rameshmehta/credit-risk-analysis?resource=download). Please note that you might need to create a Kaggle account to download the dataset.
+
+Data Preparation and Challenges
+During the initial stages of this project, I encountered specific challenges related to importing the data into SQL. The primary issues were with the `desc` and `emp_title` columns. These columns contained extensive textual data, making the import process cumbersome and causing compatibility issues with our SQL setup. To streamline the data import process and focus our analysis on the most impactful columns, I decided to exclude these two columns from our analysis. This decision allowed for a more efficient data import and a cleaner, more focused dataset for our analysis.
+
