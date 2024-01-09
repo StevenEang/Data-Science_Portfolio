@@ -121,6 +121,9 @@ SELECT
     STDEV(loan_amnt) AS StdDevLoanAmount -- The standard deviation of loan amounts, indicating variability.
 FROM [dbo].[Credit Risk];
 
+TotalLoans	MinLoanAmount	MaxLoanAmount	AvgLoanAmount	StdDevLoanAmount
+855969	500.00	35000.00	14745.571334	8425.3400050053
+
 -- Loan Amount Distribution Analysis
 -- This query is designed to understand the frequency of each loan amount, providing a granular view of our loan distribution.
 SELECT 
