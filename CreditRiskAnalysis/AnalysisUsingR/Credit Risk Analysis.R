@@ -55,14 +55,66 @@ loans_data <- loans_data %>%
 # Correlation Analysis
 cor(loans_data$loan_amnt, loans_data$annual_inc)
 
-# Regression Analysis
+# Fitting a logistic regression model to predict default_ind using loan_amnt, annual_inc, and int_rate
 model <- glm(default_ind ~ loan_amnt + annual_inc + int_rate, data = loans_data, family = "binomial")
 summary(model)
+
+Call:
+glm(formula = default_ind ~ loan_amnt + annual_inc + int_rate, 
+    family = "binomial", data = loans_data)
+
+Coefficients:
+              Estimate Std. Error  z value Pr(>|z|)    
+(Intercept) -4.437e+00  2.103e-02 -211.015  < 2e-16 ***
+loan_amnt   -2.632e-06  7.225e-07   -3.642  0.00027 ***
+annual_inc  -6.872e-06  2.129e-07  -32.280  < 2e-16 ***
+int_rate     1.433e-01  1.112e-03  128.906  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 349912  on 817664  degrees of freedom
+Residual deviance: 329826  on 817661  degrees of freedom
+AIC: 329834
+
+Number of Fisher Scoring iterations: 6
+
+# Coefficients:
+# The intercept is -4.437, which is the log odds of defaulting when all predictors are 0.
+# The coefficient for loan_amnt is -2.632e-06, suggesting that as the loan amount increases,
+# the log odds of defaulting decreases slightly.
+# The coefficient for annual_inc is -6.872e-06, indicating that higher annual income is associated with
+# lower log odds of defaulting.
+# The coefficient for int_rate is 0.143, which implies that higher interest rates are associated with
+# increased log odds of defaulting.
 
 # Simple linear regression of loan amount on annual income
 lm_model <- lm(loan_amnt ~ annual_inc, data = loans_data)
 summary(lm_model)
 
+Call:
+lm(formula = loan_amnt ~ annual_inc, data = loans_data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-25122.2  -4961.6   -661.9   4565.7  24961.2 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 5.425e+03  1.950e+01   278.2   <2e-16 ***
+annual_inc  1.318e-01  2.640e-04   499.5   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 7139 on 817663 degrees of freedom
+Multiple R-squared:  0.2338,	Adjusted R-squared:  0.2338 
+F-statistic: 2.495e+05 on 1 and 817663 DF,  p-value: < 2.2e-16
+
+# This summary provides insights into the relationship between loan amount and annual income.
+# It indicates a significant positive relationship, where a higher annual income is associated with a higher loan amount.
+# However, the R-squared value suggests that while annual income is a significant predictor, other factors also play a significant role in determining the loan amount.
+ 
 # Logistic Regression Diagnostics
 # Plotting residuals
 plot(residuals(model, type = "deviance"))
@@ -71,18 +123,52 @@ plot(residuals(model, type = "deviance"))
 library(ResourceSelection)
 hoslem.test(loans_data$default_ind, fitted(model))
 
+	Hosmer and Lemeshow goodness of fit (GOF) test
+
+data:  loans_data$default_ind, fitted(model)
+X-squared = 589.97, df = 8, p-value < 2.2e-16
+ 
 # Decision Trees or Random Forests
 library(randomForest)
 rf_model <- randomForest(default_ind ~ loan_amnt + annual_inc + int_rate + dti, data=loans_data, ntree=100)
 print(rf_model)
 
+Call:
+ randomForest(formula = default_ind ~ loan_amnt + annual_inc +      int_rate + dti, data = loans_data, ntree = 100) 
+               Type of random forest: regression
+                     Number of trees: 100
+No. of variables tried at each split: 1
+
+          Mean of squared residuals: 0.05113556
+                    % Var explained: 2.2
+ 
 # Cross-validations for logistic regression and random forest models
 library(caret)
 control <- trainControl(method="cv", number=10)
 glm_cv <- train(default_ind ~ loan_amnt + annual_inc + int_rate, data=loans_data, method="glm", trControl=control, family="binomial")
 print(glm_cv)
 
+Generalized Linear Model 
+
+817665 samples
+     3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 735899, 735899, 735898, 735898, 735898, 735899, ... 
+Resampling results:
+
+  RMSE       Rsquared    MAE      
+  0.2259124  0.02409448  0.1017952
+ 
 importance(rf_model)
+
+   IncNodePurity
+loan_amnt       5523.123
+annual_inc      5490.746
+int_rate        6572.222
+dti             8601.070
+ 
 varImpPlot(rf_model)
 
 # Data Visualization
