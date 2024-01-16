@@ -12,5 +12,3 @@ Data Sets: Due to the large size of the raw data files, they are hosted external
 Research Findings: Detailed reports and findings from the analysis.
 Supplementary Materials: Any additional materials supporting the research.
 
-Usage and Citation:
-This research is made available for academic and research purposes. If you use or refer to this study in your research, please cite it appropriately.
